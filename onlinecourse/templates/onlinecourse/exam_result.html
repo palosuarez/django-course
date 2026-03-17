@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resultado del Examen</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+
+      .result-container {
+        background: white;
+        border-radius: 1rem;
+        max-width: 800px;
+        width: 100%;
+        padding: 2rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      .result-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+      }
+
+      .result-header.passed {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .result-header.failed {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      .result-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+      }
+
+      .score-display {
+        font-size: 3rem;
+        font-weight: 700;
+        margin: 1rem 0;
+      }
+
+      .score-details {
+        font-size: 1.1rem;
+        margin: 1rem 0;
+      }
+
+      .details-section {
+        margin-top: 2rem;
+      }
+
+      .details-section h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: #212529;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #e0e0e0;
+      }
+
+      .question-details {
+        background: #f8f9fa;
+        border-left: 4px solid #0d6efd;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0.375rem;
+      }
+
+      .question-text {
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        color: #212529;
+      }
+
+      .choice-option {
+        padding: 0.5rem 0;
+        margin: 0.5rem 0;
+        padding-left: 1.5rem;
+      }
+
+      .correct-answer {
+        color: #198754;
+        font-weight: 500;
+      }
+
+      .wrong-answer {
+        color: #dc3545;
+        font-weight: 500;
+      }
+
+      .not-selected {
+        color: #ffc107;
+        font-weight: 500;
+      }
+
+      .unselected-option {
+        color: #6c757d;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+      }
+
+      .btn {
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: none;
+      }
+
+      .btn-primary {
+        background: #0d6efd;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #0956ca;
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        background: #6c757d;
+        color: white;
+      }
+
+      .btn-secondary:hover {
+        background: #5a6268;
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="result-container">
+      <!-- Header Resultado -->
+      <div
+        class="result-header {% if passed %}passed{% else %}failed{% endif %}"
+      >
+        <div class="result-title">
+          {% if passed %} ¡Felicidades! {% else %} Fallido {% endif %}
+        </div>
+        <div class="score-display">{{ score }}/100</div>
+        <div class="score-details">
+          {{ correct_count }} de {{ total_questions }} respuestas correctas
+        </div>
+      </div>
+
+      <!-- Detalles de Respuestas -->
+      <div class="details-section">
+        <h3>Detalles del Examen</h3>
+
+        {% for question in course.question_set.all %}
+        <div class="question-details">
+          <div class="question-text">{{ question.content }}</div>
+
+          {% for choice in question.choice_set.all %}
+          <div class="choice-option">
+            {% if choice.is_correct and choice in choices %}
+            <span class="correct-answer"
+              >✓ Respuesta correcta: {{ choice.content }}</span
+            >
+            {% else %}{% if choice.is_correct and choice not in choices %}
+            <span class="not-selected"
+              >⚠ No seleccionada: {{ choice.content }}</span
+            >
+            {% else %}{% if not choice.is_correct and choice in choices %}
+            <span class="wrong-answer"
+              >✗ Respuesta incorrecta: {{ choice.content }}</span
+            >
+            {% else %}
+            <span class="unselected-option">{{ choice.content }}</span>
+            {% endif %}{% endif %}{% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+
+      <!-- Botones -->
+      <div class="button-group">
+        <a href="{% url 'course_details' course.id %}" class="btn btn-primary">
+          Volver a intentar
+        </a>
+        <a href="{% url 'courses' %}" class="btn btn-secondary">
+          Ir a cursos
+        </a>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
