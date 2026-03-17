@@ -28,9 +28,10 @@ def submit(request, course_id):
             submission.choices.set(choices)
         
         # Redirigir a resultados
-        return redirect('show_exam_result', submission_id=submission.id)
+        return redirect('onlinecourse:show_exam_result', submission_id=submission.id)
+
     
-    return redirect('course_details', pk=course_id)
+    return redirect('onlinecourse:course_details', pk=course_id)
 
 
 @login_required(login_url='/admin/login/')

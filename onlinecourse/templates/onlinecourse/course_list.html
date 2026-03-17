@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cursos Disponibles</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #0d6efd 0%, #0956ca 100%);
+        color: white;
+        padding: 3rem 0;
+        margin-bottom: 2rem;
+      }
+
+      .course-card {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .course-card:hover {
+        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .course-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #0d6efd;
+        margin-bottom: 0.5rem;
+      }
+
+      .course-description {
+        color: #6c757d;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <div class="container">
+        <h1>Cursos Disponibles</h1>
+        <p>Elige un curso para comenzar</p>
+      </div>
+    </div>
+
+    <!-- Cursos -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          {% for course in courses %}
+          <a href="{% url 'onlinecourse:course_details' course.id %}" class="course-card">
+            
+          </a>class="course-card">
+            <div class="course-title">{{ course.name }}</div>
+            <p class="course-description">{{ course.description }}</p>
+          </a>
+          {% empty %}
+          <div class="alert alert-info">
+            No hay cursos disponibles en este momento.
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

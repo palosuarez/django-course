@@ -202,10 +202,13 @@
 
       <!-- Botones -->
       <div class="button-group">
-        <a href="{% url 'course_details' course.id %}" class="btn btn-primary">
+        <a
+          href="{% url 'onlinecourse:course_details' course.id %}"
+          class="btn btn-primary"
+        >
           Volver a intentar
         </a>
-        <a href="{% url 'courses' %}" class="btn btn-secondary">
+        <a href="{% url 'onlinecourse:courses' %}" class="btn btn-secondary">
           Ir a cursos
         </a>
       </div>

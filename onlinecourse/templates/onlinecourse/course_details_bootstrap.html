@@ -146,7 +146,7 @@
     <!-- Main Content -->
     <div class="container-lg">
       <!-- Form Envío -->
-      <form method="POST" action="{% url 'submit' course.id %}">
+      <form method="POST" action="{% url 'onlinecourse:submit' course.id %}">
         {% csrf_token %}
 
         <!-- Lecciones y Preguntas -->
